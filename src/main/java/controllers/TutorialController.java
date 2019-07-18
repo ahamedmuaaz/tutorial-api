@@ -44,6 +44,21 @@ public class TutorialController {
         return founded;
     }
 
+    @RequestMapping("/delete")
+    public void delete(@RequestParam(value ="id" ,defaultValue = "id") int id) {
+        System.out.println(id);
+        repository.deleteTutorialById(id);
+
+    }
+
+    @RequestMapping("/update")
+    public void update(@RequestParam(value ="tut" ,defaultValue = "tut")Tutorial tut) {
+        repository.save(tut);
+
+
+    }
+
+
 
 
 
