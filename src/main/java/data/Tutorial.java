@@ -33,6 +33,11 @@ public class Tutorial implements Serializable {
     public Tutorial() {
     }
 
+    @Override
+    public String toString() {
+        return this.id+" "+" "+this.name;
+    }
+
     public int getId() {
         return id;
     }
