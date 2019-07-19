@@ -1,23 +1,17 @@
 package controllers;
 
 
-import data.Greeting;
 import data.Tutorial;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import service.TutorialRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+
 
 
 @RestController
-
 public class TutorialController {
 
 
@@ -25,8 +19,6 @@ public class TutorialController {
     private TutorialRepository repository;
 
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping("/")
     public List<Tutorial> alltutorials() {
@@ -46,13 +38,15 @@ public class TutorialController {
 
     @RequestMapping("/delete")
     public void delete(@RequestParam(value ="id" ,defaultValue = "id") int id) {
-        System.out.println(id);
+
         repository.deleteTutorialById(id);
 
     }
 
-    @RequestMapping("/update")
-    public void update(@RequestParam(value ="tut" ,defaultValue = "tut")Tutorial tut) {
+
+    @RequestMapping(value="/add",method = RequestMethod.POST, headers = "Accept=application/json")
+    public void add(@RequestBody  Tutorial tut) {
+
         repository.save(tut);
 
 
