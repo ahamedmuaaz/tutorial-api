@@ -1,30 +1,70 @@
 package controllers;
-import data.Greeting;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import service.TutorialRepository;
 
-import java.util.concurrent.atomic.AtomicLong;
+
+
+
+
+import data.Tutorial;
+
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+
 
 @RestController
 public class TutorialController {
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
 
-    @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));
+
+    @Autowired(required = true)
+    private TutorialRepository repository;
+
+
+
+    @RequestMapping("/")
+    public List<Tutorial> alltutorials() {
+
+        List<Tutorial> tutlist=new ArrayList<Tutorial>();
+        tutlist=repository.findAll();
+        return tutlist;
     }
 
-    @RequestMapping("/tutorial")
-    public Greeting tutorial(@RequestParam(value="name", defaultValue="World") String name) {
-        return new Greeting(counter.incrementAndGet(),
-                String.format(template, name));
+
+    @RequestMapping("/find")
+    public Tutorial alltutorials(@RequestParam(value ="id" ,defaultValue = "id") int id) {
+        Tutorial founded =repository.findById(id);
+
+        return founded;
     }
+
+    @RequestMapping("/delete")
+    public void delete(@RequestParam(value ="id" ,defaultValue = "id") int id) {
+
+        repository.deleteTutorialById(id);
+
+    }
+
+
+    @RequestMapping(value="/add",method = RequestMethod.POST, headers = "Accept=application/json")
+    public void add(@RequestBody  Tutorial tut) {
+
+        repository.save(tut);
+
+
+    }
+
+
+
+
 
 
 }
